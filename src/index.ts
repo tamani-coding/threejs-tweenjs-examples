@@ -9,6 +9,23 @@ const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(30, window.i
 camera.position.set(-35, 70, 100);
 camera.lookAt(new THREE.Vector3(0, 0, 0));
 
+const tweenCamera1 = new TWEEN.Tween( {x: -35, y: 85, z: 100, lookAtX: 0, lookAtY: 0, lookAtZ: 0} )
+  .to( {x: 45, y: 66, z: -80, lookAtX: 0, lookAtY: 0, lookAtZ: 0}, 7000 )
+const tweenCamera2 = new TWEEN.Tween( {x: -45, y: 10, z: -80, lookAtX: -35, lookAtY: 10, lookAtZ: 100} )
+  .to( {x: 35, y: 10, z: -80, lookAtX: 35, lookAtY: 10, lookAtZ: 100}, 6000 )
+
+tweenCamera1.chain(tweenCamera2)
+tweenCamera2.chain(tweenCamera1)
+
+const updateCamera = function (object : {x: number; y: number; z:number; lookAtX:number; lookAtY:number; lookAtZ:number}, elapsed: number) {
+  camera.position.set(object.x, object.y, object.z);
+  camera.lookAt(new THREE.Vector3(object.lookAtX, object.lookAtY, object.lookAtZ))
+}
+tweenCamera1.onUpdate(updateCamera)
+tweenCamera2.onUpdate(updateCamera)
+
+tweenCamera1.start()
+
 // RENDERER
 const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(window.devicePixelRatio);
