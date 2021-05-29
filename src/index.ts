@@ -85,16 +85,14 @@ function createBox() {
   tween1.chain(tween2)
   tween1.start()
 
-  tween1.onUpdate(function(){
+  const update = function(){
     box.scale.x = start.x;
     box.scale.y = start.y;
     box.scale.z = start.z;
-  });
-  tween2.onUpdate(function(){
-    box.scale.x = start.x;
-    box.scale.y = start.y;
-    box.scale.z = start.z;
-  });
+  }
+
+  tween1.onUpdate(update)
+  tween2.onUpdate(update);
 }
 
 function createSphere() {
